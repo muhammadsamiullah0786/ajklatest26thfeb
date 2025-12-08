@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ===== Lead Form Submission =====
   const leadForm = document.getElementById('leadForm');
-  const API_ENDPOINT = ''; // replace with your backend URL if available
+  const API_ENDPOINT = '/.netlify/functions/submit-form';
 
   leadForm && leadForm.addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -64,24 +64,30 @@ document.addEventListener('DOMContentLoaded', function() {
     status.textContent = 'Submitting...';
 
     const formData = new FormData(leadForm);
+    const data = {};
+    formData.forEach((v, k) => { data[k] = v; });
 
     try {
-      if (API_ENDPOINT) {
-        const res = await fetch(API_ENDPOINT, { method: 'POST', body: formData });
-        if (!res.ok) throw new Error('Network error');
-        status.textContent = 'Thank you! We will contact you shortly.';
-        leadForm.reset();
-      } else {
-        // Local capture (no backend)
-        const data = {};
-        formData.forEach((v, k) => { data[k] = v; });
-        console.log('Lead (no-backend):', data);
-        status.textContent = 'Form captured locally (check console) or connect your API.';
-        leadForm.reset();
-      }
+      const res = await fetch(API_ENDPOINT, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      
+      if (!res.ok) throw new Error('Network error');
+      
+      const result = await res.json();
+      status.textContent = 'Thank you! We will contact you shortly.';
+      status.style.color = '#28a745';
+      leadForm.reset();
+      
+      setTimeout(() => {
+        status.textContent = '';
+      }, 5000);
     } catch (err) {
       console.error(err);
-      status.textContent = 'Submission failed. Try again later.';
+      status.textContent = 'Submission failed. Please try again later.';
+      status.style.color = '#dc3545';
     }
   });
 
