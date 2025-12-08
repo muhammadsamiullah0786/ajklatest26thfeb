@@ -1,22 +1,45 @@
 const nodemailer = require('nodemailer');
 
 exports.handler = async (event, context) => {
+  // CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Content-Type': 'application/json'
+  };
+
+  // Handle OPTIONS request for CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
   // Only allow POST
   if (event.httpMethod !== 'POST') {
     return { 
-      statusCode: 405, 
+      statusCode: 405,
+      headers,
       body: JSON.stringify({ error: 'Method Not Allowed' })
     };
   }
 
   try {
+    console.log('Received form submission');
     const data = JSON.parse(event.body);
+    console.log('Parsed data:', { ...data, email: data.email ? 'PROVIDED' : 'MISSING' });
+    
     const { name, email, phone, dob, insuranceType, city, country, message } = data;
 
     // Validate required fields
     if (!name || !email) {
+      console.error('Validation failed: missing name or email');
       return {
         statusCode: 400,
+        headers,
         body: JSON.stringify({ error: 'Name and email are required' })
       };
     }
@@ -26,9 +49,12 @@ exports.handler = async (event, context) => {
       console.error('Gmail credentials not configured');
       return {
         statusCode: 500,
+        headers,
         body: JSON.stringify({ error: 'Email service not configured. Please contact administrator.' })
       };
     }
+
+    console.log('Sending email to:', process.env.RECIPIENT_EMAIL || process.env.GMAIL_USER);
 
     // Create transporter using Gmail
     const transporter = nodemailer.createTransport({
@@ -108,10 +134,13 @@ exports.handler = async (event, context) => {
     };
 
     // Send email
+    console.log('Attempting to send email...');
     await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully!');
 
     return {
       statusCode: 200,
+      headers,
       body: JSON.stringify({ 
         message: 'Form submitted successfully!',
         success: true 
@@ -119,12 +148,13 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error in form submission:', error);
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({ 
         error: 'Failed to submit form. Please try again later.',
-        details: error.message 
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined 
       })
     };
   }

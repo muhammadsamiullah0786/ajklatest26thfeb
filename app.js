@@ -99,11 +99,26 @@ document.addEventListener('DOMContentLoaded', function() {
   leadForm && leadForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const status = document.getElementById('formStatus');
+    
+    // Show loading state
     status.textContent = 'Submitting...';
+    status.style.color = '#0b3b5d';
+    status.style.fontWeight = '600';
 
+    // Collect form data with correct field mapping
     const formData = new FormData(leadForm);
-    const data = {};
-    formData.forEach((v, k) => { data[k] = v; });
+    const data = {
+      name: formData.get('fullName') || '',
+      email: formData.get('email') || '',
+      phone: formData.get('phone') || '',
+      dob: formData.get('dob') || '',
+      insuranceType: formData.get('insuranceType') || '',
+      city: formData.get('city') || '',
+      country: formData.get('country') || '',
+      message: formData.get('message') || ''
+    };
+
+    console.log('Submitting form data:', data);
 
     try {
       const res = await fetch(API_ENDPOINT, { 
@@ -112,10 +127,14 @@ document.addEventListener('DOMContentLoaded', function() {
         body: JSON.stringify(data)
       });
       
-      if (!res.ok) throw new Error('Network error');
-      
       const result = await res.json();
-      status.textContent = 'Thank you! We will contact you shortly.';
+      console.log('Server response:', result);
+      
+      if (!res.ok) {
+        throw new Error(result.error || 'Network error');
+      }
+      
+      status.textContent = '✓ Thank you! We will contact you shortly.';
       status.style.color = '#28a745';
       leadForm.reset();
       
@@ -123,9 +142,16 @@ document.addEventListener('DOMContentLoaded', function() {
         status.textContent = '';
       }, 5000);
     } catch (err) {
-      console.error(err);
-      status.textContent = 'Submission failed. Please try again later.';
+      console.error('Form submission error:', err);
+      status.textContent = '✗ Error: ' + (err.message || 'Please try again later.');
       status.style.color = '#dc3545';
+      
+      // Show more detailed error after 3 seconds if in development
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        setTimeout(() => {
+          status.textContent += ' (Check console for details)';
+        }, 3000);
+      }
     }
   });
 
