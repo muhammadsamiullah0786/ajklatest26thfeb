@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ===== Lead Form Submission =====
   const leadForm = document.getElementById('leadForm');
-  const API_ENDPOINT = '/api/submit-form';
+  const API_ENDPOINT = 'https://formspree.io/f/xwpgokyb';
 
   leadForm && leadForm.addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -105,10 +105,10 @@ document.addEventListener('DOMContentLoaded', function() {
     status.style.color = '#0b3b5d';
     status.style.fontWeight = '600';
 
-    // Collect form data with correct field mapping
+    // Collect form data
     const formData = new FormData(leadForm);
     const data = {
-      name: formData.get('fullName') || '',
+      fullName: formData.get('fullName') || '',
       email: formData.get('email') || '',
       phone: formData.get('phone') || '',
       dob: formData.get('dob') || '',
@@ -123,15 +123,14 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       const res = await fetch(API_ENDPOINT, { 
         method: 'POST', 
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
       
-      const result = await res.json();
-      console.log('Server response:', result);
+      console.log('Server response status:', res.status);
       
       if (!res.ok) {
-        throw new Error(result.details || result.error || 'Network error');
+        throw new Error('Network error: ' + res.status);
       }
       
       status.textContent = '✓ Thank you! We will contact you shortly.';
