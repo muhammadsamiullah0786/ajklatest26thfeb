@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Server response:', result);
       
       if (!res.ok) {
-        throw new Error(result.error || 'Network error');
+        throw new Error(result.details || result.error || 'Network error');
       }
       
       status.textContent = '✓ Thank you! We will contact you shortly.';
@@ -145,13 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error('Form submission error:', err);
       status.textContent = '✗ Error: ' + (err.message || 'Please try again later.');
       status.style.color = '#dc3545';
-      
-      // Show more detailed error after 3 seconds if in development
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        setTimeout(() => {
-          status.textContent += ' (Check console for details)';
-        }, 3000);
-      }
+      console.log('Full error:', err);
     }
   });
 

@@ -130,7 +130,7 @@ module.exports = async (req, res) => {
     console.error('Error in form submission:', error);
     return res.status(500).json({ 
       error: 'Failed to submit form. Please try again later.',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined 
+      details: error.message || error.toString()
     });
   }
 };
