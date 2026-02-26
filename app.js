@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ===== Lead Form Submission =====
   const leadForm = document.getElementById('leadForm');
-  const API_ENDPOINT = '/.netlify/functions/submit-form';
+  const API_ENDPOINT = '/api/submit-form';
 
   leadForm && leadForm.addEventListener('submit', async function(e) {
     e.preventDefault();
