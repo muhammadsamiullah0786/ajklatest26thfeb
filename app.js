@@ -49,12 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn('Spam detected via honeypot');
         return;
       }
-    if (honeypot) {
-      console.warn('Spam detected via honeypot');
-      return false;
-    }
 
-    // Show loading state
+      // Show loading state
     const btnText = submitButton.querySelector('.btn-text');
     const btnLoader = submitButton.querySelector('.btn-loader');
     if (btnText) btnText.style.display = 'none';
