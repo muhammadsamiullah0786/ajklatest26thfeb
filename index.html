@@ -63,33 +63,119 @@
   </header>
 
   <!-- ========================================
-       HERO SECTION
-       Premium hero with background image + CTA
-       To edit: Change hero-1.jpg, headline, or CTAs
+       HERO SECTION - MULTI-SLIDE CAROUSEL
+       5 slides with unique content for each
+       ========================================
+       TO EDIT SLIDES:
+       - Change background images: assets/hero-1.jpg to hero-5.jpg
+       - Edit titles, descriptions, CTAs below
+       - Timing: Controlled in main.js (INTERVAL_TIME = 4000)
        ======================================== -->
   <section class="hero" id="home">
-    <div class="hero-bg">
-      <img src="assets/hero-1.jpg" alt="Family protection" class="hero-image">
-      <div class="hero-overlay"></div>
+    <!-- Hero Slides Container -->
+    <div class="hero-slides" id="heroSlides">
+      
+      <!-- ===== SLIDE 1: Life Insurance ===== -->
+      <div class="hero-slide is-active" data-slide="0">
+        <div class="hero-slide-bg" style="background-image: url('assets/hero-1.jpg')"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <span class="hero-badge">Trusted Protection</span>
+          <h1 class="hero-title">Protect What<br>Matters Most</h1>
+          <p class="hero-description">Secure your family's future with comprehensive life insurance plans tailored to your needs.</p>
+          <div class="hero-buttons">
+            <a href="#apply" class="btn btn-primary btn-lg">Get a Quote</a>
+            <a href="#services" class="btn btn-secondary btn-lg">Learn More</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ===== SLIDE 2: Health Insurance ===== -->
+      <div class="hero-slide" data-slide="1">
+        <div class="hero-slide-bg" style="background-image: url('assets/hero-2.jpg')"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <span class="hero-badge">Quality Healthcare</span>
+          <h1 class="hero-title">Your Health,<br>Our Priority</h1>
+          <p class="hero-description">Access comprehensive health coverage with extensive hospital networks and cashless claims.</p>
+          <div class="hero-buttons">
+            <a href="#apply" class="btn btn-primary btn-lg">Get Started</a>
+            <a href="#services" class="btn btn-secondary btn-lg">Explore Plans</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ===== SLIDE 3: Travel Insurance ===== -->
+      <div class="hero-slide" data-slide="2">
+        <div class="hero-slide-bg" style="background-image: url('assets/hero-3.jpg')"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <span class="hero-badge">Travel Worry-Free</span>
+          <h1 class="hero-title">Explore the World<br>With Confidence</h1>
+          <p class="hero-description">Worldwide coverage for medical emergencies, trip cancellations, and baggage protection.</p>
+          <div class="hero-buttons">
+            <a href="#apply" class="btn btn-primary btn-lg">Get Coverage</a>
+            <a href="#services" class="btn btn-secondary btn-lg">View Plans</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ===== SLIDE 4: Family Protection ===== -->
+      <div class="hero-slide" data-slide="3">
+        <div class="hero-slide-bg" style="background-image: url('assets/hero-4.jpg')"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <span class="hero-badge">Family First</span>
+          <h1 class="hero-title">Complete Family<br>Protection Plans</h1>
+          <p class="hero-description">Comprehensive coverage for your entire family with flexible options and competitive rates.</p>
+          <div class="hero-buttons">
+            <a href="#apply" class="btn btn-primary btn-lg">Protect Now</a>
+            <a href="#about" class="btn btn-secondary btn-lg">Why Choose Us</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ===== SLIDE 5: Final Expense ===== -->
+      <div class="hero-slide" data-slide="4">
+        <div class="hero-slide-bg" style="background-image: url('assets/hero-5.jpg')"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <span class="hero-badge">Peace of Mind</span>
+          <h1 class="hero-title">Plan Ahead<br>With Dignity</h1>
+          <p class="hero-description">Affordable final expense coverage to ease the burden on your loved ones during difficult times.</p>
+          <div class="hero-buttons">
+            <a href="#apply" class="btn btn-primary btn-lg">Learn More</a>
+            <a href="#faq" class="btn btn-secondary btn-lg">Common Questions</a>
+          </div>
+        </div>
+      </div>
+      
     </div>
     
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title">
-          <span class="hero-title-line">Protect What</span>
-          <span class="hero-title-line">Matters Most</span>
-        </h1>
-        <p class="hero-subtitle">
-          Comprehensive insurance solutions tailored to your life — Life, Health, Auto, Travel & more.
-          Get personalized quotes from trusted carriers in minutes.
-        </p>
-        
-        <div class="hero-cta">
-          <a href="#apply" class="btn btn-primary btn-lg">Get a Quote</a>
-          <a href="#services" class="btn btn-secondary btn-lg">Explore Plans</a>
-        </div>
-        
-        <!-- Trust indicators -->
+    <!-- Slider Navigation Arrows -->
+    <button class="hero-arrow hero-arrow-prev" id="heroPrev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button class="hero-arrow hero-arrow-next" id="heroNext" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+    
+    <!-- Slider Dots -->
+    <div class="hero-dots" id="heroDots">
+      <button class="hero-dot is-active" data-slide="0" aria-label="Go to slide 1"></button>
+      <button class="hero-dot" data-slide="1" aria-label="Go to slide 2"></button>
+      <button class="hero-dot" data-slide="2" aria-label="Go to slide 3"></button>
+      <button class="hero-dot" data-slide="3" aria-label="Go to slide 4"></button>
+      <button class="hero-dot" data-slide="4" aria-label="Go to slide 5"></button>
+    </div>
+    
+    <!-- Trust Indicators -->
+    <div class="hero-trust-bar">
+      <div class="container">
         <div class="hero-trust">
           <div class="trust-item">
             <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -107,7 +193,7 @@
             <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
-            <span>Multiple Carriers</span>
+            <span>10+ Carriers</span>
           </div>
         </div>
       </div>
@@ -115,122 +201,183 @@
   </section>
 
   <!-- ========================================
-       SERVICES SECTION
-       4 main service cards with hover effects
-       To edit: Update service titles, descriptions, or images
+       SERVICES SECTION (PREMIUM DESIGN)
+       4 cards desktop | 2 tablet | 1 mobile
+       Yellow icon badge, pill buttons, hover lift
        ======================================== -->
-  <section class="services section" id="services">
+  <section class="services-premium section" id="services">
     <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Our Insurance Services</h2>
-        <p class="section-subtitle">Comprehensive coverage options designed for every stage of your life</p>
+      <!-- Section Header -->
+      <header class="services-premium__header reveal">
+        <h2 class="services-premium__title">Our Services</h2>
+        <p class="services-premium__subtitle">
+          <span>Life</span>
+          <span class="sep">|</span>
+          <span>Health</span>
+          <span class="sep">|</span>
+          <span>Auto</span>
+          <span class="sep">|</span>
+          <span>Final Expense</span>
+          <span class="sep">|</span>
+          <span>Travel</span>
+        </p>
+      </header>
+      
+      <!-- Services Carousel Wrapper -->
+      <div class="services-carousel-wrapper">
+        <!-- Navigation Arrows -->
+        <button class="services-carousel__nav services-carousel__nav--prev" id="servicesNavPrev" aria-label="Previous service">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <button class="services-carousel__nav services-carousel__nav--next" id="servicesNavNext" aria-label="Next service">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+        
+        <!-- Services Carousel Track -->
+        <div class="services-premium__carousel" id="servicesCarousel">
+        
+        <!-- Card 1: Life Insurance -->
+        <article class="sp-card reveal">
+          <div class="sp-card__image">
+            <img src="assets/service-life.jpg" alt="Life Insurance - Family financial protection" loading="lazy">
+            <div class="sp-card__icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="sp-card__body">
+            <h3 class="sp-card__title">Life Insurance</h3>
+            <p class="sp-card__desc">Secure your family's financial future with customizable life policies and flexible coverage options.</p>
+            <a href="#apply" class="sp-card__btn">
+              <svg class="sp-card__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              Apply Now
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2: Health Insurance -->
+        <article class="sp-card reveal">
+          <div class="sp-card__image">
+            <img src="assets/service-health.jpg" alt="Health Insurance - Medical coverage plans" loading="lazy">
+            <div class="sp-card__icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="sp-card__body">
+            <h3 class="sp-card__title">Health Insurance</h3>
+            <p class="sp-card__desc">Comprehensive medical coverage with extensive hospital networks and cashless claims support.</p>
+            <a href="#apply" class="sp-card__btn">
+              <svg class="sp-card__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              Apply Now
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 3: Auto Insurance -->
+        <article class="sp-card reveal">
+          <div class="sp-card__image">
+            <img src="assets/service-accident.jpg" alt="Auto Insurance - Vehicle protection coverage" loading="lazy">
+            <div class="sp-card__icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18 10l-2.5-3.5A2 2 0 0013.8 5H10a2 2 0 00-1.6.9L6 10l-2.5 1.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/>
+                <circle cx="7" cy="17" r="2"/>
+                <circle cx="17" cy="17" r="2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="sp-card__body">
+            <h3 class="sp-card__title">Auto Insurance</h3>
+            <p class="sp-card__desc">Drive worry-free with comprehensive auto coverage, fast claims, and roadside assistance.</p>
+            <a href="#apply" class="sp-card__btn">
+              <svg class="sp-card__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              Apply Now
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 4: Final Expense -->
+        <article class="sp-card reveal">
+          <div class="sp-card__image">
+            <img src="assets/service-final.jpg" alt="Final Expense - Burial and funeral coverage" loading="lazy">
+            <div class="sp-card__icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="sp-card__body">
+            <h3 class="sp-card__title">Final Expense</h3>
+            <p class="sp-card__desc">Affordable coverage to ease the financial burden on your loved ones during difficult times.</p>
+            <a href="#apply" class="sp-card__btn">
+              <svg class="sp-card__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              Apply Now
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 5: Travel Insurance -->
+        <article class="sp-card reveal">
+          <div class="sp-card__image">
+            <img src="assets/service-travel.jpg" alt="Travel Insurance - Worldwide protection" loading="lazy">
+            <div class="sp-card__icon-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="sp-card__body">
+            <h3 class="sp-card__title">Travel Insurance</h3>
+            <p class="sp-card__desc">Worldwide coverage for medical emergencies, trip cancellations, and baggage protection.</p>
+            <a href="#apply" class="sp-card__btn">
+              <svg class="sp-card__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              Apply Now
+            </a>
+          </div>
+        </article>
+
       </div>
       
-      <div class="services-grid">
-        <!-- Service Card 1: Life Insurance -->
-        <article class="service-card reveal">
-          <div class="service-image">
-            <img src="assets/service-life.jpg" alt="Life Insurance Coverage">
-            <div class="service-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-            </div>
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Life Insurance</h3>
-            <p class="service-benefit">Secure your family's financial future</p>
-            <p class="service-description">Customizable life policies with flexible coverage options to protect your loved ones and ensure their financial security.</p>
-            <a href="#apply" class="service-link">
-              Get Started
-              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
-        </article>
-
-        <!-- Service Card 2: Health Insurance -->
-        <article class="service-card reveal">
-          <div class="service-image">
-            <img src="assets/service-health.jpg" alt="Health Insurance Plans">
-            <div class="service-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Health Insurance</h3>
-            <p class="service-benefit">Comprehensive medical coverage you can trust</p>
-            <p class="service-description">Access to quality healthcare with extensive hospital networks, cashless claims, and preventive care benefits.</p>
-            <a href="#apply" class="service-link">
-              Get Started
-              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
-        </article>
-
-        <!-- Service Card 3: Auto Insurance -->
-        <article class="service-card reveal">
-          <div class="service-image">
-            <img src="assets/service-accident.jpg" alt="Auto Insurance Coverage">
-            <div class="service-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-            </div>
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Auto Insurance</h3>
-            <p class="service-benefit">Drive worry-free with complete protection</p>
-            <p class="service-description">Comprehensive auto coverage with fast claims processing, roadside assistance, and flexible payment options.</p>
-            <a href="#apply" class="service-link">
-              Get Started
-              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
-        </article>
-
-        <!-- Service Card 4: Travel Insurance -->
-        <article class="service-card reveal">
-          <div class="service-image">
-            <img src="assets/service-travel.jpg" alt="Travel Insurance">
-            <div class="service-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Travel Insurance</h3>
-            <p class="service-benefit">Explore the world with confidence</p>
-            <p class="service-description">Worldwide coverage for trip cancellations, medical emergencies, baggage loss, and travel delays.</p>
-            <a href="#apply" class="service-link">
-              Get Started
-              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
-        </article>
+      <!-- Carousel Indicators -->
+      <div class="services-carousel__indicators" id="servicesIndicators" role="tablist" aria-label="Service carousel navigation">
+        <button class="services-carousel__dot active" data-index="0" role="tab" aria-label="Service 1" aria-selected="true"></button>
+        <button class="services-carousel__dot" data-index="1" role="tab" aria-label="Service 2" aria-selected="false"></button>
+        <button class="services-carousel__dot" data-index="2" role="tab" aria-label="Service 3" aria-selected="false"></button>
+        <button class="services-carousel__dot" data-index="3" role="tab" aria-label="Service 4" aria-selected="false"></button>
+        <button class="services-carousel__dot" data-index="4" role="tab" aria-label="Service 5" aria-selected="false"></button>
       </div>
+    </div>
     </div>
   </section>
 
   <!-- ========================================
        ABOUT SECTION
-       2-column layout with trust stats
-       To edit: Update company description or stats
+       2-column: Text left, Image right (desktop)
+       Single image only - no duplicates
        ======================================== -->
   <section class="about section" id="about">
     <div class="container">
       <div class="about-grid">
         <div class="about-content reveal">
+          <span class="about-label">About Us</span>
           <h2 class="about-title">Why Choose AJK Insurance Brokers</h2>
           <p class="about-text">
             AJK Insurance Brokers LLC is a trusted brokerage firm delivering comprehensive insurance solutions across life, health, auto, travel, and more. We prioritize transparency, personalized service, and quick claims assistance.
@@ -254,11 +401,13 @@
               <div class="stat-label">Personalized Plans</div>
             </div>
           </div>
+          
+          <a href="#apply" class="btn btn-primary">Get Your Free Quote</a>
         </div>
         
+        <!-- About Image: Single <img> only -->
         <div class="about-image reveal">
-          <img src="assets/service-family.jpg" alt="AJK Insurance Team" class="parallax-image">
-          <div class="image-decoration"></div>
+          <img src="assets/AdobeStock_573351177-scaled-e1687283403625.jpeg.webp" alt="Professional insurance consultation">
         </div>
       </div>
     </div>
@@ -266,27 +415,47 @@
 
   <!-- ========================================
        CARRIERS & PARTNERS
-       Logo grid with hover effects
-       To edit: Add/remove carrier names
+       Tile wall with logos/names
+       Responsive: 2/3/4/5 columns
        ======================================== -->
-  <section class="carriers section">
+  <section class="carriers section" id="carriers">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2 class="section-title">Our Trusted Carriers & Partners</h2>
         <p class="section-subtitle">We work with leading insurance providers to bring you the best coverage options</p>
       </div>
       
-      <div class="carriers-grid reveal">
-        <div class="carrier-logo">Aetna</div>
-        <div class="carrier-logo">AIG</div>
-        <div class="carrier-logo">American Home Life</div>
-        <div class="carrier-logo">Athene</div>
-        <div class="carrier-logo">Cigna</div>
-        <div class="carrier-logo">Gerber Life</div>
-        <div class="carrier-logo">Nassau Life</div>
-        <div class="carrier-logo">Protective Life</div>
-        <div class="carrier-logo">Guarantee Trust</div>
-        <div class="carrier-logo">C & K Health</div>
+      <div class="carriers-grid">
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">Aetna</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">AIG</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">American Home Life</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">Athene</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">Cigna</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">Gerber Life</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">Nassau Life</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">Protective Life</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">Guarantee Trust</span>
+        </div>
+        <div class="carrier-tile reveal">
+          <span class="carrier-name">C & K Health</span>
+        </div>
       </div>
     </div>
   </section>
@@ -450,20 +619,6 @@
                 >
               </div>
 
-              <div class="form-group">
-                <label for="documents" class="form-label">
-                  Upload Documents (optional)
-                </label>
-                <input 
-                  type="file" 
-                  id="documents" 
-                  name="documents" 
-                  class="form-input file-input"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                >
-                <small class="form-help">PDF, JPG, or PNG (max 5MB)</small>
-              </div>
-
               <div class="form-group full-width">
                 <label for="message" class="form-label">
                   Additional Notes
@@ -476,6 +631,16 @@
                   placeholder="Tell us about your insurance needs..."
                 ></textarea>
               </div>
+
+              <!-- Honeypot field (spam protection) - HIDDEN from users -->
+              <input 
+                type="text" 
+                name="honeypot" 
+                id="honeypot" 
+                style="display: none; position: absolute; left: -9999px;"
+                autocomplete="off"
+                tabindex="-1"
+              >
             </div>
 
             <div class="form-reassurance">
@@ -638,7 +803,7 @@
             </div>
             <div class="contact-details">
               <h3>Email</h3>
-              <a href="mailto:Khan@ajkinsurancebrokersllc.com">Khan@ajkinsurancebrokersllc.com</a>
+              <a href="mailto:khan@ajk-insurance.com">khan@ajk-insurance.com</a>
             </div>
           </div>
 
@@ -737,7 +902,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <a href="mailto:Khan@ajkinsurancebrokersllc.com">Khan@ajkinsurancebrokersllc.com</a>
+              <a href="mailto:khan@ajk-insurance.com">khan@ajk-insurance.com</a>
             </li>
           </ul>
         </div>
@@ -766,7 +931,13 @@
     </svg>
   </a>
 
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  
   <!-- Main JavaScript -->
   <script src="assets/js/main.js"></script>
+  
+  <!-- App JavaScript (Form Handler) -->
+  <script src="app.js"></script>
 </body>
 </html>

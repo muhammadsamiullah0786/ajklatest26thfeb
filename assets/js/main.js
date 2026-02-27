@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize all features
   initPreloader();
   initHeader();
+  initHeroSlider();
+  initServicesCarousel();
   initMobileMenu();
   initSmoothScroll();
   initScrollReveal();
@@ -90,6 +92,417 @@ function initHeader() {
     
     lastScroll = currentScroll;
   });
+}
+
+// ==============================================
+// HERO SLIDER - MULTI-SLIDE CAROUSEL
+// ==============================================
+// Features:
+// - 5 slides with unique content
+// - Auto-advances every 4 seconds
+// - Pause on hover, resume on leave
+// - Arrow navigation (prev/next)
+// - Dot navigation
+// - Preloads images before starting
+// - Respects prefers-reduced-motion
+// - Only ONE slide visible at a time
+//
+// TO CHANGE TIMING: Edit INTERVAL_TIME below
+// TO CHANGE IMAGES: Edit assets/hero-1.jpg to hero-5.jpg
+// ==============================================
+function initHeroSlider() {
+  const slidesContainer = document.getElementById('heroSlides');
+  const prevBtn = document.getElementById('heroPrev');
+  const nextBtn = document.getElementById('heroNext');
+  const dotsContainer = document.getElementById('heroDots');
+  
+  if (!slidesContainer) return;
+  
+  const slides = Array.from(slidesContainer.querySelectorAll('.hero-slide'));
+  const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.hero-dot')) : [];
+  
+  if (slides.length < 2) return;
+  
+  // ==============================================
+  // CONFIGURATION - CHANGE THESE VALUES
+  // ==============================================
+  const INTERVAL_TIME = 4000; // 4 seconds between slides
+  const TRANSITION_TIME = 800; // Must match CSS transition duration
+  
+  let currentIndex = 0;
+  let intervalId = null;
+  let isAnimating = false;
+  
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  // ==============================================
+  // PRELOAD IMAGES
+  // ==============================================
+  function preloadImages() {
+    const imageUrls = [];
+    slides.forEach(slide => {
+      const bg = slide.querySelector('.hero-slide-bg');
+      if (bg) {
+        const style = bg.getAttribute('style') || '';
+        const match = style.match(/url\(['"]?([^'"]+)['"]?\)/);
+        if (match) imageUrls.push(match[1]);
+      }
+    });
+    
+    return Promise.all(
+      imageUrls.map(url => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(url);
+          img.onerror = () => resolve(url); // Continue even if image fails
+          img.src = url;
+        });
+      })
+    );
+  }
+  
+  // ==============================================
+  // SHOW SLIDE - Ensures only ONE is visible
+  // ==============================================
+  function showSlide(index, direction = 'next') {
+    if (isAnimating) return;
+    if (index === currentIndex) return;
+    
+    isAnimating = true;
+    
+    // Remove is-active from all slides
+    slides.forEach((slide, i) => {
+      if (i === index) {
+        slide.classList.add('is-active');
+      } else {
+        slide.classList.remove('is-active');
+      }
+    });
+    
+    // Update dots
+    dots.forEach((dot, i) => {
+      if (i === index) {
+        dot.classList.add('is-active');
+      } else {
+        dot.classList.remove('is-active');
+      }
+    });
+    
+    currentIndex = index;
+    
+    // Reset animating flag after transition
+    setTimeout(() => {
+      isAnimating = false;
+    }, TRANSITION_TIME);
+  }
+  
+  // ==============================================
+  // NAVIGATION FUNCTIONS
+  // ==============================================
+  function nextSlide() {
+    const newIndex = (currentIndex + 1) % slides.length;
+    showSlide(newIndex, 'next');
+  }
+  
+  function prevSlide() {
+    const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(newIndex, 'prev');
+  }
+  
+  function goToSlide(index) {
+    if (index >= 0 && index < slides.length) {
+      showSlide(index, index > currentIndex ? 'next' : 'prev');
+    }
+  }
+  
+  // ==============================================
+  // AUTOPLAY CONTROL
+  // ==============================================
+  function startAutoplay() {
+    if (prefersReducedMotion) return;
+    stopAutoplay(); // Prevent duplicate intervals
+    intervalId = setInterval(nextSlide, INTERVAL_TIME);
+  }
+  
+  function stopAutoplay() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+  
+  // ==============================================
+  // EVENT LISTENERS
+  // ==============================================
+  
+  // Arrow buttons
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      stopAutoplay();
+      prevSlide();
+      startAutoplay();
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      stopAutoplay();
+      nextSlide();
+      startAutoplay();
+    });
+  }
+  
+  // Dot navigation
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      stopAutoplay();
+      goToSlide(index);
+      startAutoplay();
+    });
+  });
+  
+  // Pause on hover
+  slidesContainer.addEventListener('mouseenter', stopAutoplay);
+  slidesContainer.addEventListener('mouseleave', startAutoplay);
+  
+  // Handle page visibility
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoplay();
+    } else {
+      startAutoplay();
+    }
+  });
+  
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    // Only if hero is in viewport
+    const heroRect = slidesContainer.getBoundingClientRect();
+    const isVisible = heroRect.top < window.innerHeight && heroRect.bottom > 0;
+    
+    if (!isVisible) return;
+    
+    if (e.key === 'ArrowLeft') {
+      stopAutoplay();
+      prevSlide();
+      startAutoplay();
+    } else if (e.key === 'ArrowRight') {
+      stopAutoplay();
+      nextSlide();
+      startAutoplay();
+    }
+  });
+  
+  // ==============================================
+  // INITIALIZE
+  // ==============================================
+  preloadImages().then(() => {
+    // Ensure first slide is active
+    slides.forEach((slide, i) => {
+      if (i === 0) {
+        slide.classList.add('is-active');
+      } else {
+        slide.classList.remove('is-active');
+      }
+    });
+    
+    if (dots.length > 0) {
+      dots[0].classList.add('is-active');
+    }
+    
+    // Start autoplay
+    startAutoplay();
+    
+    console.log('✓ Hero slider initialized with', slides.length, 'slides');
+  });
+}
+
+// ==============================================
+// SERVICES CAROUSEL - AUTO-SCROLLING HORIZONTAL
+// ==============================================
+function initServicesCarousel() {
+  const carousel = document.getElementById('servicesCarousel');
+  const prevBtn = document.getElementById('servicesNavPrev');
+  const nextBtn = document.getElementById('servicesNavNext');
+  const indicators = document.querySelectorAll('.services-carousel__dot');
+  
+  if (!carousel) return;
+  
+  const cards = carousel.querySelectorAll('.sp-card');
+  if (cards.length === 0) return;
+  
+  let currentIndex = 0;
+  let autoScrollInterval;
+  const AUTO_SCROLL_DELAY = 5000; // 5 seconds
+  const SCROLL_SMOOTH_DURATION = 600;
+  
+  // Calculate scroll position for a given index
+  function getScrollPosition(index) {
+    const card = cards[index];
+    if (!card) return 0;
+    
+    const cardWidth = card.offsetWidth;
+    const gap = 24; // 1.5rem gap
+    const containerWidth = carousel.offsetWidth;
+    const cardWithGap = cardWidth + gap;
+    
+    // Center the card in view
+    return (cardWithGap * index) - ((containerWidth - cardWidth) / 2);
+  }
+  
+  // Scroll to specific card
+  function scrollToCard(index) {
+    if (index < 0 || index >= cards.length) return;
+    
+    const scrollPos = getScrollPosition(index);
+    carousel.scrollTo({
+      left: Math.max(0, scrollPos),
+      behavior: 'smooth'
+    });
+    
+    currentIndex = index;
+    updateIndicators();
+  }
+  
+  // Update active indicator
+  function updateIndicators() {
+    indicators.forEach((dot, index) => {
+      if (index === currentIndex) {
+        dot.classList.add('active');
+        dot.setAttribute('aria-selected', 'true');
+      } else {
+        dot.classList.remove('active');
+        dot.setAttribute('aria-selected', 'false');
+      }
+    });
+  }
+  
+  // Next card
+  function nextCard() {
+    const nextIndex = (currentIndex + 1) % cards.length;
+    scrollToCard(nextIndex);
+  }
+  
+  // Previous card
+  function prevCard() {
+    const prevIndex = (currentIndex - 1 + cards.length) % cards.length;
+    scrollToCard(prevIndex);
+  }
+  
+  // Start auto-scroll
+  function startAutoScroll() {
+    stopAutoScroll();
+    autoScrollInterval = setInterval(nextCard, AUTO_SCROLL_DELAY);
+  }
+  
+  // Stop auto-scroll
+  function stopAutoScroll() {
+    if (autoScrollInterval) {
+      clearInterval(autoScrollInterval);
+      autoScrollInterval = null;
+    }
+  }
+  
+  // Arrow navigation
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      prevCard();
+      stopAutoScroll();
+      setTimeout(startAutoScroll, 3000); // Resume after 3 seconds
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      nextCard();
+      stopAutoScroll();
+      setTimeout(startAutoScroll, 3000);
+    });
+  }
+  
+  // Dot indicators
+  indicators.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      scrollToCard(index);
+      stopAutoScroll();
+      setTimeout(startAutoScroll, 3000);
+    });
+  });
+  
+  // Pause on hover
+  carousel.addEventListener('mouseenter', stopAutoScroll);
+  carousel.addEventListener('mouseleave', startAutoScroll);
+  
+  // Handle manual scroll (update indicators based on scroll position)
+  let scrollTimeout;
+  carousel.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const scrollLeft = carousel.scrollLeft;
+      const cardWidth = cards[0].offsetWidth + 24;
+      const newIndex = Math.round(scrollLeft / cardWidth);
+      
+      if (newIndex !== currentIndex && newIndex >= 0 && newIndex < cards.length) {
+        currentIndex = newIndex;
+        updateIndicators();
+      }
+    }, 150);
+  });
+  
+  // Keyboard navigation
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prevCard();
+      stopAutoScroll();
+      setTimeout(startAutoScroll, 3000);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      nextCard();
+      stopAutoScroll();
+      setTimeout(startAutoScroll, 3000);
+    }
+  });
+  
+  // Touch/swipe detection for mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    stopAutoScroll();
+  });
+  
+  carousel.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+    setTimeout(startAutoScroll, 3000);
+  });
+  
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    if (touchStartX - touchEndX > swipeThreshold) {
+      nextCard();
+    } else if (touchEndX - touchStartX > swipeThreshold) {
+      prevCard();
+    }
+  }
+  
+  // Initialize
+  updateIndicators();
+  startAutoScroll();
+  
+  // Pause auto-scroll when page is hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoScroll();
+    } else {
+      startAutoScroll();
+    }
+  });
+  
+  console.log('✓ Services carousel initialized with', cards.length, 'cards');
 }
 
 // ==============================================
@@ -209,21 +622,43 @@ function initScrollReveal() {
     document.querySelectorAll('.reveal').forEach(el => {
       el.style.opacity = '1';
       el.style.transform = 'none';
+      el.style.transitionDelay = '0ms';
+      el.classList.add('is-visible');
     });
     return;
   }
+
+  // Services carousel cards - show all at once (no stagger for horizontal carousel)
+  const spCards = document.querySelectorAll('.services-premium__carousel .sp-card');
+  spCards.forEach((card) => {
+    card.style.setProperty('--reveal-delay', '0ms');
+  });
+  
+  // Apply staggered delays for carrier tiles
+  const carrierTiles = document.querySelectorAll('.carriers-grid .carrier-tile');
+  carrierTiles.forEach((tile, index) => {
+    tile.style.setProperty('--reveal-delay', `${index * 50}ms`);
+  });
+  
+  // Apply staggered delays for FAQ items
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach((item, index) => {
+    item.style.setProperty('--reveal-delay', `${index * 80}ms`);
+  });
   
   // IntersectionObserver for scroll reveal
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        // Get delay from CSS variable if set
+        const delay = getComputedStyle(entry.target).getPropertyValue('--reveal-delay') || '0ms';
+        entry.target.style.transitionDelay = delay;
+        entry.target.classList.add('is-visible');
         entry.target.classList.add('revealed');
-        // Optionally unobserve after revealing
-        // revealObserver.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.15,
+    threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
   });
   
@@ -264,16 +699,9 @@ function initMultiStepForm() {
     });
   }
   
-  // Form submission
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    if (!validateStep(currentStep)) {
-      return;
-    }
-    
-    await handleFormSubmit(form);
-  });
+  // Form submission - HANDLED BY app.js (EmailJS)
+  // Form submit handler removed to avoid conflict with EmailJS in app.js
+  // The EmailJS handler will take care of sending emails
   
   // Real-time validation on blur
   const inputs = form.querySelectorAll('.form-input[required]');

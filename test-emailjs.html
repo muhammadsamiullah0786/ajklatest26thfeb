@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmailJS Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #0b3b5d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0a2f4a;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>EmailJS Test Form</h1>
+    <p>This will test if your EmailJS credentials are working correctly.</p>
+    
+    <form id="testForm">
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" value="Test User" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" value="test@example.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" value="555-123-4567" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="insuranceType">Insurance Type:</label>
+            <select id="insuranceType" name="insuranceType" required>
+                <option value="Life">Life Insurance</option>
+                <option value="Health">Health Insurance</option>
+                <option value="Auto">Auto Insurance</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4">This is a test message from the EmailJS test form.</textarea>
+        </div>
+        
+        <button type="submit" id="submitBtn">Send Test Email</button>
+    </form>
+    
+    <div id="status"></div>
+    
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init('PYcH71DH2oAKBx8OP');
+            console.log('EmailJS initialized with public key: PYcH71DH2oAKBx8OP');
+        })();
+        
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const status = document.getElementById('status');
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            status.className = '';
+            status.textContent = 'Sending email...';
+            
+            try {
+                const formData = new FormData(this);
+                
+                // Prepare template parameters
+                const templateParams = {
+                    from_name: formData.get('name'),
+                    from_email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    insurance_type: formData.get('insuranceType'),
+                    message: formData.get('message'),
+                    to_email: 'khan@ajk-insurance.com'
+                };
+                
+                console.log('Sending with params:', templateParams);
+                console.log('Service ID: service_l35eaus');
+                console.log('Template ID: template_bcfbrbg');
+                
+                // Send email
+                const response = await emailjs.send(
+                    'service_l35eaus',
+                    'template_bcfbrbg',
+                    templateParams
+                );
+                
+                console.log('SUCCESS!', response);
+                status.className = 'success';
+                status.innerHTML = `
+                    <strong>✓ Email sent successfully!</strong><br>
+                    Status: ${response.status} ${response.text}<br>
+                    Check khan@ajk-insurance.com inbox (and spam folder)
+                `;
+                
+                // Reset form
+                this.reset();
+                
+            } catch (error) {
+                console.error('FAILED...', error);
+                console.error('Error text:', error.text);
+                console.error('Error message:', error.message);
+                console.error('Full error:', JSON.stringify(error, null, 2));
+                
+                status.className = 'error';
+                status.innerHTML = `
+                    <strong>✗ Failed to send email</strong><br>
+                    Error: ${error.text || error.message || 'Unknown error'}<br>
+                    <br>
+                    <strong>Possible issues:</strong><br>
+                    1. Service ID incorrect: service_l35eaus<br>
+                    2. Template ID incorrect: template_bcfbrbg<br>
+                    3. Public Key incorrect: PYcH71DH2oAKBx8OP<br>
+                    4. Template variables don't match<br>
+                    5. EmailJS account not active<br>
+                    <br>
+                    Check browser console (F12) for full error details.
+                `;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Test Email';
+            }
+        });
+    </script>
+</body>
+</html>
