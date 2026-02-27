@@ -97,25 +97,81 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
   .hero {
     min-height: 40vh !important;
     padding: 2rem 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
-  .hero-content, .hero-title {
-    font-size: clamp(1.75rem, 6vw, 2.25rem) !important;
+  .hero-slides {
+    width: 100% !important;
+    display: flex !important;
+    position: relative !important;
+  }
+
+  .hero-slide {
+    width: 100% !important;
+    display: none !important;
+  }
+
+  .hero-slide.is-active {
+    display: flex !important;
+  }
+
+  .hero-slide-bg {
+    display: block !important;
+    background-size: cover !important;
+    background-position: center !important;
+    position: absolute !important;
+    inset: 0 !important;
+  }
+
+  .hero-slide-overlay {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+  }
+
+  .hero-slide-content {
+    position: relative !important;
+    z-index: 3 !important;
+    min-height: 50vh !important;
+    padding: 3rem 1.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .hero-badge {
+    font-size: 0.75rem !important;
+    padding: 0.4rem 1rem !important;
     margin-bottom: 1rem !important;
   }
 
-  .hero-subtitle {
-    font-size: 1rem !important;
+  .hero-title {
+    font-size: clamp(1.75rem, 6vw, 2.5rem) !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-description {
+    font-size: 0.95rem !important;
     line-height: 1.5 !important;
+    margin-bottom: 1.5rem !important;
   }
 
-  .hero-cta {
+  .hero-buttons {
+    display: flex !important;
     flex-direction: column !important;
-    gap: 1rem !important;
+    gap: 0.75rem !important;
     align-items: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
-  .hero-cta .btn {
+  .hero-buttons .btn {
     width: 100% !important;
   }
 
@@ -320,6 +376,20 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     text-align: center !important;
   }
 
+  .footer-logo {
+    height: 40px !important;
+    width: auto !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .footer-tagline {
+    font-size: 0.875rem !important;
+  }
+
+  .footer-title {
+    font-size: 1rem !important;
+  }
+
   /* ===== WHATSAPP BUTTON ===== */
   .whatsapp-float {
     width: 56px !important;
@@ -370,8 +440,18 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     height: 40px !important;
   }
 
+  .footer-logo {
+    height: 32px !important;
+    width: auto !important;
+  }
+
   .hero {
     min-height: 35vh !important;
+  }
+
+  .hero-slide-content {
+    min-height: 45vh !important;
+    padding: 2rem 1rem !important;
   }
 
   .btn {
