@@ -37,6 +37,7 @@ const MOBILE_BREAKPOINT = 768;
 document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize all features
+  initViewportCompensation();
   initPreloader();
   initHeader();
   initHeroSlider();
@@ -51,6 +52,38 @@ document.addEventListener('DOMContentLoaded', function() {
   
   console.log('✓ AJK Insurance website initialized');
 });
+
+// ==============================================
+// VIEWPORT + HEADER COMPENSATION (MOBILE SAFE)
+// ==============================================
+function initViewportCompensation() {
+  const header = document.getElementById('header');
+
+  const setHeaderHeight = () => {
+    if (!header) return;
+    document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+  };
+
+  const setSafeViewport = () => {
+    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--safe-vh', `${viewportHeight * 0.01}px`);
+  };
+
+  const updateViewportVars = () => {
+    setHeaderHeight();
+    setSafeViewport();
+  };
+
+  updateViewportVars();
+
+  window.addEventListener('resize', updateViewportVars, { passive: true });
+  window.addEventListener('orientationchange', updateViewportVars, { passive: true });
+  window.addEventListener('load', updateViewportVars, { passive: true });
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updateViewportVars, { passive: true });
+  }
+}
 
 // ==============================================
 // PRELOADER

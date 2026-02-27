@@ -1,36 +1,46 @@
 /* ==============================================
-   AGGRESSIVE MOBILE-FIRST ENHANCEMENTS
-   Override desktop styles for mobile devices
-   Uses !important to ensure mobile styles apply
+   MOBILE ENHANCEMENTS (PURE CSS)
+   Focus: mobile-safe hero, trust badges, and form usability
    ============================================== */
 
-/* Touch-Friendly Base */
+:root {
+  --header-h: 80px;
+  --safe-vh: 1vh;
+}
+
 * {
   -webkit-tap-highlight-color: rgba(11, 58, 93, 0.1) !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
 }
 
-button, a, input, select, textarea {
+button,
+a,
+input,
+select,
+textarea {
   touch-action: manipulation !important;
 }
 
-/* Minimum 44x44 touch targets */
-button, .btn, a.btn, input[type="submit"], .step-indicator {
+button,
+.btn,
+a.btn,
+input[type="submit"],
+.step-indicator {
   min-height: 44px !important;
   min-width: 44px !important;
 }
 
-/* ===== 768px AND BELOW - TABLETS & PHONES ===== */
 @media (max-width: 768px) {
-
-  /* CRITICAL: Prevent iOS zoom – 16px minimum */
-  input, select, textarea, .form-input {
+  input,
+  select,
+  textarea,
+  .form-input {
     font-size: 16px !important;
   }
 
-  /* ===== LAYOUT ===== */
-  html, body {
+  html,
+  body {
     overflow-x: hidden !important;
     max-width: 100% !important;
     width: 100% !important;
@@ -49,143 +59,165 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     overflow-x: hidden !important;
   }
 
-  /* ===== TYPOGRAPHY ===== */
-  h1, h2, h3, h4, h5, h6 {
-    font-size: clamp(1.25rem, 5vw, 2rem) !important;
-    line-height: 1.3 !important;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.25 !important;
   }
 
-  .section-title {
-    font-size: clamp(1.75rem, 6vw, 2.2rem) !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .section-subtitle {
-    font-size: 1rem !important;
-    line-height: 1.5 !important;
-  }
-
-  p, span, li {
-    font-size: 1rem !important;
+  p,
+  span,
+  li {
     line-height: 1.6 !important;
   }
 
-  /* ===== HEADER & NAV ===== */
   .header {
     z-index: 1000 !important;
   }
 
   .nav-wrapper {
-    padding: 0.75rem 0 !important;
+    padding: 0.7rem 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
+    gap: 0.75rem !important;
   }
 
   .logo img {
-    height: 48px !important;
+    height: 42px !important;
     width: auto !important;
+  }
+
+  .menu-toggle {
+    margin-left: auto !important;
   }
 
   .nav-menu {
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
-    max-height: calc(100vh - 60px) !important;
+    max-height: calc((var(--safe-vh) * 100) - var(--header-h)) !important;
   }
 
-  /* ===== HERO SECTION ===== */
+  @supports (height: 1svh) {
+    .nav-menu {
+      max-height: calc(100svh - var(--header-h)) !important;
+    }
+  }
+
+  /* ===== HERO SECTION (MOBILE-SAFE) ===== */
   .hero {
-    min-height: 40vh !important;
-    padding: 2rem 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    position: relative !important;
+    display: block !important;
+    min-height: clamp(520px, calc(var(--safe-vh) * 75), 740px) !important;
+    padding-top: var(--header-h) !important;
+    padding-bottom: 0 !important;
+  }
+
+  @supports (height: 1svh) {
+    .hero {
+      min-height: clamp(520px, 75svh, 740px) !important;
+    }
+  }
+
+  @supports (height: 1dvh) {
+    .hero {
+      min-height: clamp(520px, 75dvh, 740px) !important;
+    }
   }
 
   .hero-slides {
-    width: 100% !important;
-    display: flex !important;
     position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: inherit !important;
   }
 
   .hero-slide {
+    position: absolute !important;
+    inset: 0 !important;
     width: 100% !important;
-    display: none !important;
-  }
-
-  .hero-slide.is-active {
-    display: flex !important;
   }
 
   .hero-slide-bg {
-    display: block !important;
     background-size: cover !important;
-    background-position: center !important;
-    position: absolute !important;
-    inset: 0 !important;
+    background-position: 50% 25% !important;
+    background-repeat: no-repeat !important;
   }
 
   .hero-slide-overlay {
-    display: block !important;
-    position: absolute !important;
-    inset: 0 !important;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)) !important;
   }
 
   .hero-slide-content {
     position: relative !important;
     z-index: 3 !important;
-    min-height: 50vh !important;
-    position: relative !important;
-    z-index: 3 !important;
-    min-height: 55vh !important;
-    padding: 2.5rem 1.5rem 4rem !important;
+    min-height: clamp(420px, calc(var(--safe-vh) * 60), 620px) !important;
+    padding: 1.25rem 1rem 1.5rem !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
+    gap: 0.9rem !important;
     width: 100% !important;
-    gap: 1rem !important;
+  }
+
+  @supports (height: 1svh) {
+    .hero-slide-content {
+      min-height: clamp(420px, 60svh, 620px) !important;
+    }
+  }
+
+  @supports (height: 1dvh) {
+    .hero-slide-content {
+      min-height: clamp(420px, 60dvh, 620px) !important;
+    }
   }
 
   .hero-badge {
     font-size: 0.75rem !important;
     padding: 0.4rem 1rem !important;
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 0 !important;
   }
 
   .hero-title {
-    font-size: clamp(1.75rem, 6vw, 2.5rem) !important;
-    margin-bottom: 0.75rem !important;
-    line-height: 1.3 !important;
-    letter-spacing: -0.5px !important;
+    font-size: clamp(28px, 7vw, 44px) !important;
+    line-height: 1.1 !important;
+    margin-bottom: 0.25rem !important;
+    max-width: 12ch !important;
+    text-wrap: balance !important;
   }
 
   .hero-description {
-    font-size: 0.95rem !important;
-    line-height: 1.5 !important;
-    margin-bottom: 1rem !important;
-    max-width: 100% !important;
+    font-size: clamp(14px, 3.8vw, 16px) !important;
+    line-height: 1.55 !important;
+    margin-bottom: 0.25rem !important;
+    max-width: 34ch !important;
+    opacity: 0.95 !important;
   }
 
   .hero-buttons {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0.75rem !important;
-    align-items: stretch !important;
     width: 100% !important;
-    max-width: 100% !important;
-    margin-top: 0.5rem !important;
+    max-width: 460px !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+    margin-top: 0.4rem !important;
   }
 
   .hero-buttons .btn {
     width: 100% !important;
+    min-height: 48px !important;
+    justify-content: center !important;
   }
 
   .hero-arrow {
     width: 40px !important;
     height: 40px !important;
-    top: 50% !important;
+    top: calc(50% + (var(--header-h) * 0.18)) !important;
     transform: translateY(-50%) !important;
   }
 
@@ -198,7 +230,10 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
   }
 
   .hero-dots {
-    bottom: 60px !important;
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 22px !important;
     gap: 8px !important;
   }
 
@@ -207,24 +242,55 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     height: 10px !important;
   }
 
+  /* ===== TRUST BADGES ===== */
   .hero-trust-bar {
-    background: rgba(11, 58, 102, 0.95) !important;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 0.75rem !important;
-    padding: 0.4rem 1rem !important;
+    position: static !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    padding: 0 0 1rem !important;
+    z-index: 3 !important;
+  }
+
+  .hero-trust {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.6rem !important;
+    align-items: stretch !important;
+  }
+
   .trust-item {
-    padding: 0.4rem 0.75rem !important;
-    gap: 0.5rem !important;
-  .btn, button, input[type="submit"], input[type="button"] {
-    padding: 0.875rem 1.5rem !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(6px) !important;
+    border-radius: 10px !important;
+    min-height: 44px !important;
+    padding: 0.6rem 0.65rem !important;
+    gap: 0.45rem !important;
+    justify-content: flex-start !important;
+  }
+
   .trust-item span {
-    font-size: 0.75rem !important;
+    font-size: 0.76rem !important;
+    line-height: 1.3 !important;
     white-space: normal !important;
   }
 
   .trust-icon {
     width: 16px !important;
     height: 16px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hero-trust .trust-item:last-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn,
+  button,
+  input[type="submit"],
+  input[type="button"] {
+    padding: 0.875rem 1.2rem !important;
     font-size: 1rem !important;
     min-height: 48px !important;
     border-radius: 8px !important;
@@ -233,7 +299,9 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     justify-content: center !important;
   }
 
-  .btn-submit, .btn-prev, .btn-next,
+  .btn-submit,
+  .btn-prev,
+  .btn-next,
   .form-actions button {
     width: 100% !important;
   }
@@ -302,25 +370,23 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     grid-column: 1 / -1 !important;
   }
 
-  .form-input, input, select, textarea,
-  .form-select, .form-textarea {
+  .form-input,
+  input,
+  select,
+  textarea,
+  .form-select,
+  .form-textarea {
     width: 100% !important;
     padding: 0.875rem 1rem !important;
     font-size: 16px !important;
     min-height: 48px !important;
     border-radius: 8px !important;
-    border: 2px solid #ddd !important;
     box-sizing: border-box !important;
   }
 
-  textarea, .form-textarea {
+  textarea,
+  .form-textarea {
     min-height: 120px !important;
-  }
-
-  .form-input:focus, input:focus, select:focus, textarea:focus {
-    outline: none !important;
-    border-color: #0b3a66 !important;
-    box-shadow: 0 0 0 3px rgba(11, 58, 93, 0.1) !important;
   }
 
   .form-actions {
@@ -330,63 +396,34 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     margin-top: 1.5rem !important;
   }
 
-  .btn-submit, .btn-prev, .btn-next {
-    width: 100% !important;
-  }
-
-  .form-reassurance {
-    padding: 1rem !important;
-    gap: 0.75rem !important;
-    margin-bottom: 1.5rem !important;
-  }
-
-  .reassurance-icon {
-    width: 24px !important;
-    height: 24px !important;
-    flex-shrink: 0 !important;
-  }
-
-  .form-reassurance p {
-    font-size: 0.875rem !important;
-    margin: 0 !important;
-  }
-
-  /* ===== SERVICES ===== */
-  .services-grid, .services-swiper {
+  /* ===== LAYOUT BLOCKS ===== */
+  .services-grid,
+  .services-swiper,
+  .about-grid,
+  .contact-grid {
     display: grid !important;
     grid-template-columns: 1fr !important;
     gap: 1.5rem !important;
-  }
-
-  .service-card, .sp-card {
-    width: 100% !important;
-    padding: 1.5rem !important;
-    min-width: unset !important;
-    max-width: unset !important;
-  }
-
-  .swiper-slide {
-    width: 100% !important;
-  }
-
-  /* ===== ABOUT ===== */
-  .about-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 2rem !important;
   }
 
   .about-image {
     order: -1 !important;
   }
 
-  .trust-stats {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1.5rem !important;
+  .service-card,
+  .sp-card,
+  .swiper-slide {
+    width: 100% !important;
+    max-width: unset !important;
+    min-width: unset !important;
   }
 
-  /* ===== FAQ ===== */
+  .trust-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
   .faq-item {
     padding: 1rem !important;
   }
@@ -394,13 +431,6 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
   .faq-question {
     font-size: 1rem !important;
     padding: 1rem !important;
-  }
-
-  /* ===== CONTACT ===== */
-  .contact-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 2rem !important;
   }
 
   .contact-item {
@@ -417,9 +447,8 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
 
   /* ===== FOOTER ===== */
   .footer-grid {
-    display: grid !important;
     grid-template-columns: 1fr !important;
-    gap: 2.5rem !important;
+    gap: 2rem !important;
   }
 
   .footer-grid > div {
@@ -430,59 +459,31 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
   }
 
   .footer-logo {
-    height: 40px !important;
+    height: 38px !important;
     width: auto !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .footer-tagline {
-    font-size: 0.875rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .footer-tagline {
-    font-size: 0.875rem !important;
-  }
-
-  .footer-title {
-    font-size: 1rem !important;
-    margin-bottom: 1rem !important;
-    color: white !important;
   }
 
   .footer-links,
   .footer-contact {
-    gap: 0.75rem !important;
+    gap: 0.7rem !important;
     margin: 0 !important;
-  }
-
-  .footer-links li,
-  .footer-contact li {
-    margin-bottom: 0.25rem !important;
   }
 
   .footer-links a,
   .footer-contact a {
-    color: rgba(255, 255, 255, 0.85) !important;
-    font-size: 0.9375rem !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.5rem !important;
+    font-size: 0.93rem !important;
   }
 
-  .footer-title {
-    font-size: 1rem !important;
+  .footer-contact svg {
+    width: 16px !important;
+    height: 16px !important;
   }
 
-  /* ===== WHATSAPP BUTTON ===== */
   .whatsapp-float {
     width: 56px !important;
     height: 56px !important;
-    bottom: 1.5rem !important;
+    bottom: 1.25rem !important;
     right: 1rem !important;
-    width: 16px !important;
-    height: 16px !important;
-    margin-right: 0 !important;
   }
 
   .whatsapp-float svg {
@@ -490,7 +491,6 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     height: 28px !important;
   }
 
-  /* ===== TABLES & CONTENT ===== */
   table {
     display: block !important;
     overflow-x: auto !important;
@@ -501,12 +501,9 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     max-width: 100% !important;
     height: auto !important;
   }
-
 }
 
-/* ===== 480px AND BELOW - SMALL PHONES ===== */
 @media (max-width: 480px) {
-
   .container {
     padding: 0 0.75rem !important;
   }
@@ -515,40 +512,52 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     padding: 1.5rem 0 !important;
   }
 
-  h1, h2, h3 {
-    font-size: clamp(1.25rem, 5vw, 1.75rem) !important;
-  }
-
-  .section-title {
-    font-size: 1.5rem !important;
-  }
-
   .logo img {
-    height: 40px !important;
+    height: 36px !important;
+  }
+
+  .hero {
+    min-height: clamp(520px, calc(var(--safe-vh) * 80), 700px) !important;
+  }
+
+  @supports (height: 1svh) {
+    .hero {
+      min-height: clamp(520px, 80svh, 700px) !important;
+    }
+  }
+
+  .hero-slide-content {
+    min-height: clamp(400px, calc(var(--safe-vh) * 58), 580px) !important;
+    padding: 1rem 0.9rem 1.25rem !important;
+  }
+
+  .hero-title {
+    font-size: clamp(28px, 8vw, 36px) !important;
+  }
+
+  .hero-description {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  .hero-dots {
+    bottom: 16px !important;
+  }
+
+  .hero-trust {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-trust .trust-item:last-child {
+    grid-column: auto !important;
   }
 
   .footer-logo {
     height: 32px !important;
-    width: auto !important;
-  }
-
-  .hero {
-    min-height: 35vh !important;
-  }
-
-  .hero-slide-content {
-    min-height: 45vh !important;
-    padding: 2rem 1rem !important;
-    min-height: 50vh !important;
-    padding: 2rem 1rem !important;
-  }
-
-  .hero-dots {
-    bottom: 50px !important;
   }
 
   .btn {
-    padding: 0.75rem 1.25rem !important;
+    padding: 0.75rem 1rem !important;
     font-size: 0.9375rem !important;
   }
 
@@ -556,7 +565,10 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     padding: 1.25rem 0.875rem !important;
   }
 
-  .form-input, input, select, textarea {
+  .form-input,
+  input,
+  select,
+  textarea {
     padding: 0.75rem 0.875rem !important;
   }
 
@@ -570,27 +582,28 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
     bottom: 1rem !important;
     right: 0.75rem !important;
   }
-
 }
 
-/* ===== LANDSCAPE MODE ===== */
 @media (max-width: 896px) and (max-height: 414px) and (orientation: landscape) {
-
   .section {
     padding: 1rem 0 !important;
   }
 
   .logo img {
-    height: 36px !important;
+    height: 34px !important;
   }
 
   .hero {
-    min-height: 30vh !important;
+    min-height: clamp(430px, calc(var(--safe-vh) * 82), 560px) !important;
   }
 
+  @supports (height: 1svh) {
+    .hero {
+      min-height: clamp(430px, 82svh, 560px) !important;
+    }
+  }
 }
 
-/* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -600,7 +613,6 @@ button, .btn, a.btn, input[type="submit"], .step-indicator {
   }
 }
 
-/* ===== NOTCHED DEVICES ===== */
 @supports (padding: env(safe-area-inset-left)) {
   .container {
     padding-left: max(1rem, env(safe-area-inset-left)) !important;
