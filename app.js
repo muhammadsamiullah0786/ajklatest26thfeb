@@ -1,96 +1,11 @@
+// ==============================================
+// AJK INSURANCE - EMAILJS FORM HANDLER
+// ==============================================
+// This file handles ONLY the quote/contact form submission via EmailJS
+// All other UI functionality (Swiper, menu, animations) is in main.js
+// ==============================================
 
 document.addEventListener('DOMContentLoaded', function() {
-
-  // ===== Preloader & Current Year =====
-  setTimeout(() => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) preloader.style.opacity = '0';
-    setTimeout(() => preloader && (preloader.style.display = 'none'), 450);
-    const yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-  }, 500);
-
-  // ===== Hero Swiper =====
-  const heroSwiper = new Swiper('.hero-swiper', {
-    loop: true,
-    autoplay: { delay: 4000, disableOnInteraction: false },
-    pagination: { el: '.swiper-pagination', clickable: true },
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-    effect: 'fade',
-    speed: 700,
-    fadeEffect: { crossFade: true }
-  });
-
-  const heroEl = document.querySelector('.hero-swiper');
-  if (heroEl) {
-    heroEl.addEventListener('mouseenter', () => heroSwiper.autoplay.stop());
-    heroEl.addEventListener('mouseleave', () => heroSwiper.autoplay.start());
-  }
-
-  // ===== Services Swiper =====
-  const servicesSwiper = new Swiper('.services-swiper', {
-    slidesPerView: 1,
-    spaceBetween: 16,
-    loop: false,
-    breakpoints: {
-      480: { slidesPerView: 1 },
-      640: { slidesPerView: 2 },
-      900: { slidesPerView: 3 },
-      1200: { slidesPerView: 4 }
-    },
-    pagination: { el: '.services-pagination', clickable: true }
-  });
-
-  // ===== Mobile Menu Toggle =====
-  const mobileBtn = document.getElementById('mobileMenuBtn');
-  const nav = document.querySelector('.nav');
-  
-  mobileBtn && mobileBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    const expanded = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', String(!expanded));
-    if (nav) {
-      nav.style.display = expanded ? 'none' : 'flex';
-      nav.style.flexDirection = 'column';
-      nav.style.gap = '1rem';
-    }
-  });
-
-  // Close mobile menu when clicking outside
-  document.addEventListener('click', function(e) {
-    if (nav && window.innerWidth <= 1100) {
-      if (!e.target.closest('.nav') && !e.target.closest('.hamburger')) {
-        nav.style.display = 'none';
-        if (mobileBtn) mobileBtn.setAttribute('aria-expanded', 'false');
-      }
-    }
-  });
-
-  // Close mobile menu when clicking nav links
-  if (nav) {
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 1100) {
-          nav.style.display = 'none';
-          if (mobileBtn) mobileBtn.setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
-  }
-
-  // Smooth scrolling for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      if (href !== '#' && href !== '#home') {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-    });
-  });
 
   // ===== EmailJS Configuration =====
   // Wait for EmailJS to load, then initialize
