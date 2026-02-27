@@ -328,6 +328,45 @@ function initHeroSlider() {
   });
   
   // ==============================================
+  // TOUCH/SWIPE SUPPORT (MOBILE)
+  // ==============================================
+  let touchStartX = 0;
+  let touchEndX = 0;
+  let isSwiping = false;
+  
+  slidesContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    isSwiping = true;
+    stopAutoplay();
+  }, { passive: true });
+  
+  slidesContainer.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
+    touchEndX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  slidesContainer.addEventListener('touchend', () => {
+    if (!isSwiping) return;
+    isSwiping = false;
+    
+    const swipeThreshold = 50; // Minimum distance to register swipe
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swiped left => next slide
+        nextSlide();
+      } else {
+        // Swiped right => prev slide
+        prevSlide();
+      }
+    }
+    
+    // Resume autoplay after 6 seconds of no interaction
+    setTimeout(startAutoplay, 6000);
+  }, { passive: true });
+  
+  // ==============================================
   // INITIALIZE
   // ==============================================
   preloadImages().then(() => {
