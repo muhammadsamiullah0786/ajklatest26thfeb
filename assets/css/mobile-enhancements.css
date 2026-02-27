@@ -1,390 +1,441 @@
 /* ==============================================
-   MOBILE-FIRST ENHANCEMENTS
-   Enhanced mobile experience for AJK Insurance
+   AGGRESSIVE MOBILE-FIRST ENHANCEMENTS
+   Override desktop styles for mobile devices
+   Uses !important to ensure mobile styles apply
    ============================================== */
 
-/* Touch-Friendly Base Styles */
+/* Touch-Friendly Base */
 * {
-  -webkit-tap-highlight-color: rgba(11, 58, 93, 0.1);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: rgba(11, 58, 93, 0.1) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 
 button, a, input, select, textarea {
-  touch-action: manipulation;
+  touch-action: manipulation !important;
 }
 
-/* Minimum Touch Target Sizes (44x44px minimum for accessibility) */
-button, .btn, a.btn, input[type="submit"], input[type="button"] {
-  min-height: 44px;
-  min-width: 44px;
+/* Minimum 44x44 touch targets */
+button, .btn, a.btn, input[type="submit"], .step-indicator {
+  min-height: 44px !important;
+  min-width: 44px !important;
 }
 
-/* Mobile Viewport Improvements */
+/* ===== 768px AND BELOW - TABLETS & PHONES ===== */
 @media (max-width: 768px) {
-  
-  /* Prevent iOS zoom on input focus - 16px minimum font size */
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="number"],
-  input[type="date"],
-  select,
-  textarea {
+
+  /* CRITICAL: Prevent iOS zoom – 16px minimum */
+  input, select, textarea, .form-input {
     font-size: 16px !important;
   }
-  
-  /* Container - Better mobile padding */
+
+  /* ===== LAYOUT ===== */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
   .container {
-    padding: 0 1rem;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 1rem !important;
+    margin: 0 auto !important;
   }
-  
-  /* Section Spacing - Reduce on mobile */
+
   .section {
-    padding: 2rem 0;
+    padding: 2rem 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
   }
-  
-  /* Typography - Better mobile sizes */
+
+  /* ===== TYPOGRAPHY ===== */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: clamp(1.25rem, 5vw, 2rem) !important;
+    line-height: 1.3 !important;
+  }
+
   .section-title {
-    font-size: clamp(1.75rem, 5vw, 2rem);
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    font-size: clamp(1.75rem, 6vw, 2.2rem) !important;
+    margin-bottom: 1rem !important;
   }
-  
+
   .section-subtitle {
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
   }
-  
-  /* Logo - Smaller on mobile */
-  .logo img {
-    height: 48px;
+
+  p, span, li {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
   }
-  
-  /* Header - More compact */
+
+  /* ===== HEADER & NAV ===== */
+  .header {
+    z-index: 1000 !important;
+  }
+
   .nav-wrapper {
-    padding: 0.75rem 0;
+    padding: 0.75rem 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
   }
-  
-  /* Mobile Menu - Smoother */
+
+  .logo img {
+    height: 48px !important;
+    width: auto !important;
+  }
+
   .nav-menu {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    max-height: calc(100vh - 60px) !important;
   }
-  
-  /* Hero Section - Better mobile display */
-  .hero-content {
-    padding: 2rem 0;
+
+  /* ===== HERO SECTION ===== */
+  .hero {
+    min-height: 40vh !important;
+    padding: 2rem 0 !important;
   }
-  
-  .hero-title {
-    font-size: clamp(1.75rem, 6vw, 2.25rem);
-    margin-bottom: 1rem;
+
+  .hero-content, .hero-title {
+    font-size: clamp(1.75rem, 6vw, 2.25rem) !important;
+    margin-bottom: 1rem !important;
   }
-  
+
   .hero-subtitle {
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
   }
-  
-  /* Buttons - Touch-friendly */
-  .btn {
-    padding: 0.875rem 1.5rem;
-    font-size: 1rem;
-    min-height: 48px;
-    width: auto;
-  }
-  
+
   .hero-cta {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    align-items: stretch !important;
   }
-  
+
   .hero-cta .btn {
-    width: 100%;
-    justify-content: center;
+    width: 100% !important;
   }
-  
-  /* Services Cards - Stack nicely */
-  .services-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+
+  /* ===== BUTTONS ===== */
+  .btn, button, input[type="submit"], input[type="button"] {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 1rem !important;
+    min-height: 48px !important;
+    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
-  
-  .service-card {
-    padding: 1.5rem;
+
+  .btn-submit, .btn-prev, .btn-next,
+  .form-actions button {
+    width: 100% !important;
   }
-  
-  /* About Section - Stack on mobile */
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  
-  .about-image {
-    order: -1; /* Image first on mobile */
-  }
-  
-  /* Trust Stats - 2 columns on mobile */
-  .trust-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-  
-  /* Form - Mobile Optimized */
+
+  /* ===== FORMS ===== */
   .form-wrapper {
-    padding: 1.5rem 1rem;
-    border-radius: 12px;
+    max-width: 100% !important;
+    padding: 1.5rem 1rem !important;
+    margin: 0 auto !important;
+    width: 100% !important;
   }
-  
-  .form-step {
-    padding: 0;
+
+  .form-steps {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    margin-bottom: 1.5rem !important;
+    gap: 0.5rem !important;
+    flex-wrap: wrap !important;
   }
-  
-  /* Form Steps Indicator - Compact */
-  .step-indicators {
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
+
   .step-indicator {
-    flex: 1;
-    min-width: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    flex: 1 !important;
+    min-width: 50px !important;
   }
-  
+
   .step-number {
-    width: 32px;
-    height: 32px;
-    font-size: 0.875rem;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
-  
+
   .step-label {
-    font-size: 0.75rem;
+    font-size: 0.65rem !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
   }
-  
-  /* Form Fields - Touch-friendly */
+
+  .form-step {
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
   .form-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    width: 100% !important;
   }
-  
+
   .form-group {
-    margin-bottom: 1rem;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
   }
-  
-  .form-input,
-  .form-select,
-  .form-textarea {
-    padding: 0.875rem 1rem;
-    font-size: 16px;
-    min-height: 48px;
-    border-radius: 8px;
+
+  .form-group.full-width {
+    grid-column: 1 / -1 !important;
   }
-  
-  .form-textarea {
-    min-height: 120px;
+
+  .form-input, input, select, textarea,
+  .form-select, .form-textarea {
+    width: 100% !important;
+    padding: 0.875rem 1rem !important;
+    font-size: 16px !important;
+    min-height: 48px !important;
+    border-radius: 8px !important;
+    border: 2px solid #ddd !important;
+    box-sizing: border-box !important;
   }
-  
-  /* Form Actions - Stack buttons */
+
+  textarea, .form-textarea {
+    min-height: 120px !important;
+  }
+
+  .form-input:focus, input:focus, select:focus, textarea:focus {
+    outline: none !important;
+    border-color: #0b3a66 !important;
+    box-shadow: 0 0 0 3px rgba(11, 58, 93, 0.1) !important;
+  }
+
   .form-actions {
-    flex-direction: column-reverse;
-    gap: 0.75rem;
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    gap: 0.75rem !important;
+    margin-top: 1.5rem !important;
   }
-  
-  .btn-prev,
-  .btn-submit {
-    width: 100%;
-  }
-  
-  /* FAQ - Better mobile spacing */
-  .faq-list {
-    gap: 0.75rem;
-  }
-  
-  .faq-item {
-    padding: 1rem;
-  }
-  
-  .faq-question {
-    font-size: 1rem;
-    padding: 1rem;
-  }
-  
-  /* Contact Section */
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  
-  .contact-item {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-  
-  .contact-icon {
-    width: 40px;
-    height: 40px;
-  }
-  
-  /* Footer - Stack on mobile */
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    text-align: center;
-  }
-  
-  .footer-links {
-    align-items: center;
-  }
-  
-  /* WhatsApp Float - Smaller on mobile */
-  .whatsapp-float {
-    width: 56px;
-    height: 56px;
-    bottom: 1.5rem;
-    right: 1rem;
-  }
-  
-  .whatsapp-float svg {
-    width: 28px;
-    height: 28px;
-  }
-  
-  /* Tables - Scroll on mobile */
-  table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* Images - Proper sizing */
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-}
 
-/* Extra Small Devices (phones in portrait) */
-@media (max-width: 480px) {
-  
-  /* Even more compact spacing */
-  .container {
-    padding: 0 0.75rem;
+  .btn-submit, .btn-prev, .btn-next {
+    width: 100% !important;
   }
-  
-  .section {
-    padding: 1.5rem 0;
+
+  .form-reassurance {
+    padding: 1rem !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
   }
-  
-  /* Typography - Smaller */
-  .section-title {
-    font-size: 1.5rem;
+
+  .reassurance-icon {
+    width: 24px !important;
+    height: 24px !important;
+    flex-shrink: 0 !important;
   }
-  
-  .section-subtitle {
-    font-size: 0.9375rem;
+
+  .form-reassurance p {
+    font-size: 0.875rem !important;
+    margin: 0 !important;
   }
-  
-  /* Logo - Extra small */
-  .logo img {
-    height: 40px;
+
+  /* ===== SERVICES ===== */
+  .services-grid, .services-swiper {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
   }
-  
-  /* Hero */
-  .hero-title {
-    font-size: 1.5rem;
+
+  .service-card, .sp-card {
+    width: 100% !important;
+    padding: 1.5rem !important;
+    min-width: unset !important;
+    max-width: unset !important;
   }
-  
-  .hero-subtitle {
-    font-size: 0.9375rem;
+
+  .swiper-slide {
+    width: 100% !important;
   }
-  
-  /* Buttons */
-  .btn {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.9375rem;
+
+  /* ===== ABOUT ===== */
+  .about-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
   }
-  
-  /* Form */
-  .form-wrapper {
-    padding: 1.25rem 0.875rem;
+
+  .about-image {
+    order: -1 !important;
   }
-  
-  .form-input,
-  .form-select,
-  .form-textarea {
-    padding: 0.75rem 0.875rem;
-  }
-  
-  /* Trust Stats - 1 column on very small screens */
+
   .trust-stats {
-    grid-template-columns: 1fr;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
   }
-  
-  /* WhatsApp - Smaller */
+
+  /* ===== FAQ ===== */
+  .faq-item {
+    padding: 1rem !important;
+  }
+
+  .faq-question {
+    font-size: 1rem !important;
+    padding: 1rem !important;
+  }
+
+  /* ===== CONTACT ===== */
+  .contact-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .contact-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+
+  .contact-icon {
+    width: 40px !important;
+    height: 40px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    text-align: center !important;
+  }
+
+  /* ===== WHATSAPP BUTTON ===== */
   .whatsapp-float {
-    width: 52px;
-    height: 52px;
-    bottom: 1rem;
-    right: 0.75rem;
+    width: 56px !important;
+    height: 56px !important;
+    bottom: 1.5rem !important;
+    right: 1rem !important;
   }
-  
+
   .whatsapp-float svg {
-    width: 24px;
-    height: 24px;
+    width: 28px !important;
+    height: 28px !important;
   }
+
+  /* ===== TABLES & CONTENT ===== */
+  table {
+    display: block !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
 }
 
-/* Landscape Phones */
-@media (max-width: 896px) and (max-height: 414px) and (orientation: landscape) {
-  
-  /* Reduce vertical padding in landscape */
+/* ===== 480px AND BELOW - SMALL PHONES ===== */
+@media (max-width: 480px) {
+
+  .container {
+    padding: 0 0.75rem !important;
+  }
+
   .section {
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 !important;
   }
-  
-  /* Header - Compact in landscape */
+
+  h1, h2, h3 {
+    font-size: clamp(1.25rem, 5vw, 1.75rem) !important;
+  }
+
+  .section-title {
+    font-size: 1.5rem !important;
+  }
+
   .logo img {
-    height: 40px;
+    height: 40px !important;
   }
-  
-  /* Mobile menu - Scrollable in landscape */
-  .nav-menu {
-    max-height: calc(100vh - 60px);
-    overflow-y: auto;
+
+  .hero {
+    min-height: 35vh !important;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem !important;
+    font-size: 0.9375rem !important;
+  }
+
+  .form-wrapper {
+    padding: 1.25rem 0.875rem !important;
+  }
+
+  .form-input, input, select, textarea {
+    padding: 0.75rem 0.875rem !important;
+  }
+
+  .trust-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  .whatsapp-float {
+    width: 52px !important;
+    height: 52px !important;
+    bottom: 1rem !important;
+    right: 0.75rem !important;
+  }
+
+}
+
+/* ===== LANDSCAPE MODE ===== */
+@media (max-width: 896px) and (max-height: 414px) and (orientation: landscape) {
+
+  .section {
+    padding: 1rem 0 !important;
+  }
+
+  .logo img {
+    height: 36px !important;
+  }
+
+  .hero {
+    min-height: 30vh !important;
+  }
+
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-/* High DPI Displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  /* Slightly smaller text on retina displays for clarity */
-  body {
-    font-size: 0.9375rem;
-  }
-}
-
-/* Accessibility - Larger text preference */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
-/* Dark Mode Support (if needed in future) */
-@media (prefers-color-scheme: dark) {
-  /* Can add dark mode styles here later */
-}
-
-/* Safe Area Insets for notched devices (iPhone X+) */
+/* ===== NOTCHED DEVICES ===== */
 @supports (padding: env(safe-area-inset-left)) {
   .container {
-    padding-left: max(1rem, env(safe-area-inset-left));
-    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-left: max(1rem, env(safe-area-inset-left)) !important;
+    padding-right: max(1rem, env(safe-area-inset-right)) !important;
   }
-  
-  .nav-menu {
-    padding-left: max(1.5rem, env(safe-area-inset-left));
-    padding-right: max(1.5rem, env(safe-area-inset-right));
+
+  .whatsapp-float {
+    bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+    right: max(1rem, env(safe-area-inset-right)) !important;
   }
 }
