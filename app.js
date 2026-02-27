@@ -93,21 +93,47 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // ===== EmailJS Configuration =====
-  // Initialize EmailJS with your Public Key
-  emailjs.init('PYcH71DH2oAKBx8OP');
+  // Wait for EmailJS to load, then initialize
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init('PYcH71DH2oAKBx8OP');
+    console.log('✓ EmailJS initialized');
+  } else {
+    console.error('✗ EmailJS library not loaded');
+  }
 
   // ===== Application Form Submission (Contact & Quote Form) using EmailJS =====
   const applicationForm = document.getElementById('applicationForm');
   const formStatus = document.getElementById('formStatus');
   const submitButton = applicationForm && applicationForm.querySelector('button[type="submit"]');
 
-  applicationForm && applicationForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    if (!submitButton) return;
+  if (applicationForm) {
+    applicationForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      console.log('Form submission triggered');
+      
+      if (!submitButton) {
+        console.error('Submit button not found');
+        return;
+      }
 
-    // Check honeypot (spam protection)
-    const honeypot = document.getElementById('honeypot').value;
+      // Check if EmailJS is loaded
+      if (typeof emailjs === 'undefined') {
+        console.error('EmailJS not loaded');
+        if (formStatus) {
+          formStatus.innerHTML = '✗ <strong>Error:</strong> Email service not loaded. Please refresh the page.';
+          formStatus.style.color = '#dc3545';
+        }
+        return;
+      }
+
+      // Check honeypot (spam protection)
+      const honeypot = document.getElementById('honeypot');
+      if (honeypot && honeypot.value) {
+        console.warn('Spam detected via honeypot');
+        return;
+      }
     if (honeypot) {
       console.warn('Spam detected via honeypot');
       return false;
@@ -186,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (btnLoader) btnLoader.style.display = 'none';
       submitButton.disabled = false;
     }
-  });
+    });
+  }
 
 });
