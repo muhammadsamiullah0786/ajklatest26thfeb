@@ -84,12 +84,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Email subject with dynamic content
         subject: 'New Lead - ' + (formData.get('insuranceType') || 'Quote Request') + ' - ' + (formData.get('city') || 'Location TBD'),
         
-        // User information
-        fullName: formData.get('fullName') || '',
-        from_email: formData.get('email') || '',
+        // User information - MATCHING EmailJS template variable names
+        name: formData.get('fullName') || '',
+        email: formData.get('email') || '',
         phone: formData.get('phone') || '',
         dob: formData.get('dob') || 'Not provided',
-        insurance_type: formData.get('insuranceType') || '',
+        insuranceType: formData.get('insuranceType') || '',
         city: formData.get('city') || 'Not provided',
         country: formData.get('country') || 'Not provided',
         message: formData.get('message') || 'No additional message'
@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Sending email via EmailJS...', { 
         subject: templateParams.subject, 
         to_email: templateParams.to_email,
-        from_email: templateParams.from_email,
+        name: templateParams.name,
+        email: templateParams.email,
         service: 'service_l35eaus',
         template: 'template_bcfbrbg'
       });
