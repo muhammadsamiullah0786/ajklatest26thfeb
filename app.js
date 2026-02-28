@@ -9,12 +9,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ===== EmailJS Configuration =====
   // Wait for EmailJS to load, then initialize
-  if (typeof emailjs !== 'undefined') {
-    emailjs.init('PYcH71DH2oAKBx8OP');
-    console.log('✓ EmailJS initialized');
-  } else {
-    console.error('✗ EmailJS library not loaded');
-  }
+  console.log('Checking EmailJS availability...');
+  
+  // Give the EmailJS library time to load
+  setTimeout(function() {
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init('PYcH71DH2oAKBx8OP');
+      console.log('✓ EmailJS initialized successfully');
+    } else {
+      console.error('✗ EmailJS library not loaded - please check internet connection');
+    }
+  }, 100);
 
   // ===== Application Form Submission (Contact & Quote Form) using EmailJS =====
   const applicationForm = document.getElementById('applicationForm');
@@ -37,9 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
       if (typeof emailjs === 'undefined') {
         console.error('EmailJS not loaded');
         if (formStatus) {
-          formStatus.innerHTML = '✗ <strong>Error:</strong> Email service not loaded. Please refresh the page.';
-          formStatus.style.color = '#dc3545';
+          formStatus.innerHTML = '✗ <strong>Error:</strong> Email service not loaded. Please refresh the page and try again.';
+          formStatus.style.cssText = 'color: #721c24; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 6px; padding: 16px; margin-bottom: 16px; font-weight: 500;';
         }
+        // Reset button state
+        if (btnText) btnText.style.display = 'inline';
+        if (btnLoader) btnLoader.style.display = 'none';
+        submitButton.disabled = false;
         return;
       }
 
@@ -89,7 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Sending email via EmailJS...', { 
         subject: templateParams.subject, 
         to_email: templateParams.to_email,
-        from_email: templateParams.from_email 
+        from_email: templateParams.from_email,
+        service: 'service_l35eaus',
+        template: 'template_bcfbrbg'
       });
 
       // Send email using EmailJS
