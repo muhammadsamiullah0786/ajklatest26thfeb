@@ -58,9 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
     submitButton.disabled = true;
 
     if (formStatus) {
-      formStatus.textContent = 'Sending your request...';
-      formStatus.style.color = '#0b3b5d';
-      formStatus.style.fontWeight = '600';
+      formStatus.innerHTML = '<svg style="width: 18px; height: 18px; vertical-align: middle; margin-right: 8px; display: inline-block; animation: spin 1s linear infinite;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2 A10 10 0 0 1 22 12"></path></svg>Processing your request...';
+      formStatus.style.cssText = 'color: #0b3b5d; background: #e7f3ff; border: 1px solid #b3d9ff; border-radius: 6px; padding: 16px; margin-bottom: 16px; font-weight: 500;';
     }
 
     try {
@@ -69,18 +68,29 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Prepare template parameters for EmailJS
       const templateParams = {
-        from_name: formData.get('fullName') || '',
+        from_name: 'AJK Insurance Brokers', // Branded sender name
+        to_email: 'khan@ajk-insurance.com',
+        reply_to: 'khan@ajk-insurance.com',
+        
+        // Email subject with dynamic content
+        subject: 'New Lead - ' + (formData.get('insuranceType') || 'Quote Request') + ' - ' + (formData.get('city') || 'Location TBD'),
+        
+        // User information
+        fullName: formData.get('fullName') || '',
         from_email: formData.get('email') || '',
         phone: formData.get('phone') || '',
         dob: formData.get('dob') || 'Not provided',
         insurance_type: formData.get('insuranceType') || '',
         city: formData.get('city') || 'Not provided',
         country: formData.get('country') || 'Not provided',
-        message: formData.get('message') || 'No additional message',
-        to_email: 'khan@ajk-insurance.com' // Your admin email
+        message: formData.get('message') || 'No additional message'
       };
 
-      console.log('Sending email via EmailJS...', { name: templateParams.from_name, email: templateParams.from_email });
+      console.log('Sending email via EmailJS...', { 
+        subject: templateParams.subject, 
+        to_email: templateParams.to_email,
+        from_email: templateParams.from_email 
+      });
 
       // Send email using EmailJS
       const response = await emailjs.send(
@@ -93,8 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Success!
       if (formStatus) {
-        formStatus.innerHTML = '✓ <strong>Thank you!</strong> We received your quote request. We\'ll contact you within 24 hours at ' + templateParams.from_email;
-        formStatus.style.color = '#28a745';
+        formStatus.innerHTML = '<svg style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px; display: inline-block;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>Thank you!</strong> We received your quote request.<br>We\'ll contact you within 24 hours at <strong>' + templateParams.from_email + '</strong>';
+        formStatus.style.cssText = 'color: #28a745; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 6px; padding: 16px; margin-bottom: 16px; font-weight: 500;';
       }
       
       // Reset form
@@ -114,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (formStatus) {
         const errorMsg = err.text || err.message || 'Unknown error';
-        formStatus.innerHTML = '✗ <strong>Something went wrong.</strong> ' + errorMsg + '<br>Please try again or call us at +1 (845) 662-8071';
-        formStatus.style.color = '#dc3545';
+        formStatus.innerHTML = '<svg style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px; display: inline-block;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><strong>Submission Error</strong><br>' + errorMsg + '<br><br><a href="tel:+18456628071" style="color: #dc3545; font-weight: 600;">📞 Call us: +1 (845) 662-8071</a> or try again.';
+        formStatus.style.cssText = 'color: #721c24; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 6px; padding: 16px; margin-bottom: 16px; font-weight: 500;';
       }
     } finally {
       // Reset button state
