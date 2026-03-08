@@ -848,6 +848,11 @@ p {
   justify-content: center;
 }
 
+/* Dot-only indicator UI for services slider */
+.services-carousel__nav {
+  display: none;
+}
+
 .services-carousel__nav svg {
   width: 24px;
   height: 24px;
@@ -927,8 +932,9 @@ p {
 }
 
 .services-carousel__dot.active {
-  width: 32px;
-  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
   background: var(--primary);
 }
 
