@@ -99,6 +99,11 @@ input[type="submit"],
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
     max-height: calc((var(--safe-vh) * 100) - var(--header-h)) !important;
+    width: min(86vw, 320px) !important;
+    padding: 5.25rem 1rem 1.25rem !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(10px) !important;
+    border-left: 1px solid rgba(11, 58, 102, 0.08) !important;
   }
 
   @supports (height: 1svh) {
@@ -349,6 +354,78 @@ input[type="submit"],
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+  }
+
+  /* ===== MOBILE NAV LINKS ===== */
+  .nav-menu .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    margin: 0.3rem 0 !important;
+    padding: 0.8rem 0.95rem !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(11, 58, 102, 0.12) !important;
+    background: #ffffff !important;
+    color: var(--primary) !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+  }
+
+  .nav-menu .nav-link.active {
+    background: rgba(11, 58, 102, 0.09) !important;
+    border-color: rgba(11, 58, 102, 0.28) !important;
+  }
+
+  .nav-menu .nav-link.active::after {
+    display: none !important;
+  }
+
+  .nav-menu .btn.btn-primary {
+    width: 100% !important;
+    margin-top: 0.5rem !important;
+    border-radius: 10px !important;
+  }
+
+  /* ===== SERVICES CAROUSEL DOT FIX (MOBILE) ===== */
+  .services-carousel__indicators {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-top: 0.9rem !important;
+    margin-bottom: 0 !important;
+    position: relative !important;
+    z-index: 15 !important;
+  }
+
+  .services-carousel__dot {
+    width: 8px !important;
+    height: 8px !important;
+    min-width: 8px !important;
+    min-height: 8px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    border: none !important;
+    display: block !important;
+    background: #cbd5e1 !important;
+    flex: 0 0 auto !important;
+  }
+
+  .services-carousel__dot.active {
+    width: 8px !important;
+    height: 8px !important;
+    min-width: 8px !important;
+    min-height: 8px !important;
+    border-radius: 50% !important;
+    background: var(--primary) !important;
+  }
+
+  .hero-dot.is-active {
+    width: 8px !important;
+    min-width: 8px !important;
+    min-height: 8px !important;
+    border-radius: 50% !important;
   }
 
   .btn-submit,
