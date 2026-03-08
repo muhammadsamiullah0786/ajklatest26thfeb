@@ -631,6 +631,11 @@ p {
   transition: all 0.3s ease;
 }
 
+/* Dot-only slider UI */
+.hero-arrow {
+  display: none !important;
+}
+
 .hero-arrow:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: translateY(-50%) scale(1.1);
@@ -695,7 +700,7 @@ p {
 
 .hero-dot.is-active {
   background: white;
-  transform: scale(1.2);
+  transform: none;
 }
 
 /* Hero Trust Bar (bottom) */
@@ -850,7 +855,7 @@ p {
 
 /* Dot-only indicator UI for services slider */
 .services-carousel__nav {
-  display: none;
+  display: none !important;
 }
 
 .services-carousel__nav svg {
